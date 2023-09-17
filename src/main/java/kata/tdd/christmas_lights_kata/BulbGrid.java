@@ -24,4 +24,18 @@ public class BulbGrid {
     public boolean isTurnOn(int columnIndex, int rowIndex) {
         return grid[rowIndex][columnIndex];
     }
+
+    public void turnOn(int columnIndex, int rowIndex) {
+        grid[rowIndex][columnIndex] = true;
+    }
+
+    public void toggle(int startColumn, int startRow, int endColumn, int endRow) {
+        IntStream.range(startRow, endRow + 1)
+                .forEach(row -> IntStream.range(startColumn, endColumn + 1)
+                        .forEach(column -> grid[row][column] = !grid[row][column]));
+    }
+
+    public boolean isTurnOff(int columnIndex, int rowIndex) {
+        return !isTurnOn(columnIndex, rowIndex);
+    }
 }

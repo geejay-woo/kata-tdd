@@ -25,4 +25,20 @@ public class BulbGridTest {
 
     }
 
+    @Test
+    public void should_0_0_turn_off_and_other_turn_on_when_toggle_given_0_0_on_and_other_off() {
+        // given
+
+        // when
+        BulbGrid bulbGrid = new BulbGrid(1000, 1000);
+        bulbGrid.turnOn(0,0);
+        bulbGrid.toggle(0, 0, 999, 0);
+
+        // then
+        assertThat(bulbGrid.isTurnOff(0,0)).isTrue();
+        assertThat(bulbGrid.isTurnOn(500,0)).isTrue();
+        assertThat(bulbGrid.isTurnOn(999,0)).isTrue();
+
+    }
+
 }
