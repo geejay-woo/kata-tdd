@@ -37,7 +37,7 @@ public class BulbGrid {
     }
 
     public void toggleBulbsByRange(int startColumn, int startRow, int endColumn, int endRow) {
-        changeStatus(startColumn, startRow, endColumn, endRow, status-> !status);
+        changeStatus(startColumn, startRow, endColumn, endRow, status -> !status);
     }
 
     private void changeStatus(int startColumn, int startRow, int endColumn, int endRow, Function<Boolean, Boolean> statusGetter) {
@@ -47,4 +47,10 @@ public class BulbGrid {
     }
 
 
+    public int getTurnOnCount() {
+        return IntStream.range(0, rowSize)
+                .flatMap(row -> IntStream.range(0, columnSize)
+                        .map(column -> grid[row][column] ? 1 : 0))
+                .reduce(0, Integer::sum);
+    }
 }
