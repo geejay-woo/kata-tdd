@@ -20,7 +20,12 @@ public class BulbGrid {
     }
 
     public void turnOnBulbsByRange(int startColumn, int startRow, int endColumn, int endRow) {
-        changeStatus(startColumn, startRow, endColumn, endRow, status-> true);
+        changeStatus(startColumn, startRow, endColumn, endRow, status -> true);
+    }
+
+    public void turnOffBulbsByRange(int startColumn, int startRow, int endColumn, int endRow) {
+        changeStatus(startColumn, startRow, endColumn, endRow, status -> false);
+
     }
 
     public boolean isTurnOn(int columnIndex, int rowIndex) {

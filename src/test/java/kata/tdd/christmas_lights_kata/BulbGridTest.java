@@ -41,4 +41,28 @@ public class BulbGridTest {
 
     }
 
+    @Test
+    public void should_turn_off_middle_four_bulbs_when_turn_off_bulbs_given_turn_off_499_499_500_500() {
+
+        // given
+
+        // when
+        BulbGrid bulbGrid = new BulbGrid(1000, 1000);
+        bulbGrid.turnOnBulbsByRange(0,0,999,999);
+        bulbGrid.turnOffBulbsByRange(499,499,500,500);
+
+        // then
+        assertThat(bulbGrid.isTurnOn(0,0)).isTrue();
+        assertThat(bulbGrid.isTurnOn(999,0)).isTrue();
+        assertThat(bulbGrid.isTurnOn(0,999)).isTrue();
+        assertThat(bulbGrid.isTurnOn(999,999)).isTrue();
+        assertThat(bulbGrid.isTurnOn(499,499)).isFalse();
+        assertThat(bulbGrid.isTurnOn(499,500)).isFalse();
+        assertThat(bulbGrid.isTurnOn(500,499)).isFalse();
+        assertThat(bulbGrid.isTurnOn(500,500)).isFalse();
+
+
+
+    }
+
 }
