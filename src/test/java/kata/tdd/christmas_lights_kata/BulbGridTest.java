@@ -14,7 +14,7 @@ public class BulbGridTest {
 
         // when
         BulbGrid bulbGrid = new BulbGrid(1000, 1000);
-        bulbGrid.turnOn(0,0,999,999);
+        bulbGrid.turnOnBulbsByRange(0,0,999,999);
 
         // then
         assertThat(bulbGrid.isTurnOn(0,0)).isTrue();
@@ -31,8 +31,8 @@ public class BulbGridTest {
 
         // when
         BulbGrid bulbGrid = new BulbGrid(1000, 1000);
-        bulbGrid.turnOn(0,0);
-        bulbGrid.toggle(0, 0, 999, 0);
+        bulbGrid.turnOnSingleBulb(0,0);
+        bulbGrid.toggleBulbsByRange(0, 0, 999, 0);
 
         // then
         assertThat(bulbGrid.isTurnOff(0,0)).isTrue();
