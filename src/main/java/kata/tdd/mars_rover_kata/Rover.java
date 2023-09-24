@@ -2,11 +2,13 @@ package kata.tdd.mars_rover_kata;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
+
     private static final Map<Direction, Consumer<Rover>> FORWARD_DIRECTION_MAP =
             Map.of(Direction.EAST, rover -> rover.setX(rover.getXIndex() + 1),
                     Direction.NORTH, rover -> rover.setY(rover.getYIndex() + 1),
@@ -30,25 +32,25 @@ public class Rover {
     }
 
     public void execute(char instruct) {
-        if (instruct == 'r') {
-            turnRight();
-        }
-        if (instruct == 'l') {
-            turnLeft();
-        }
-        if (instruct == 'f') {
-            FORWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
-        }
-        if (instruct == 'b') {
-            BACKWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
-        }
+        Optional.ofNullable(Instruction.getByCode(instruct))
+                .map(Optional::of)
+                .orElseThrow(RuntimeException::new)
+                .ifPresent(ins -> ins.getAction().accept(this));
     }
 
-    private void turnLeft() {
+    public void goBackward() {
+        BACKWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
+    }
+
+    public void goForward() {
+        FORWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
+    }
+
+    public void turnLeft() {
         modifyDirection(index -> index - 1);
     }
 
-    private void turnRight() {
+    public void turnRight() {
         modifyDirection(index -> index + 1);
     }
 
