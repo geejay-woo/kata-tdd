@@ -68,4 +68,18 @@ public class RoverTest {
         assertThat(rover.getDirection()).isEqualTo(Direction.EAST);
     }
 
+    @Test
+    public void should_get_1_0_when_forward_given_face_south_and_at_1_1() {
+        // given
+
+        // when
+        Rover rover = new Rover(1, 1, Direction.SOUTH);
+        rover.execute('f');
+
+        // then
+        assertThat(rover.getXIndex()).isEqualTo(1);
+        assertThat(rover.getYIndex()).isEqualTo(0);
+        assertThat(rover.getDirection()).isEqualTo(Direction.SOUTH);
+    }
+
 }

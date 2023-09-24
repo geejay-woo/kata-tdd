@@ -1,10 +1,17 @@
 package kata.tdd.mars_rover_kata;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
+    private static final Map<Direction, Consumer<Rover>> FORWARD_DIRECTION_MAP =
+            Map.of(Direction.EAST, rover -> rover.setX(rover.getXIndex() + 1),
+                    Direction.NORTH, rover -> rover.setY(rover.getYIndex() + 1),
+                    Direction.WEST, rover -> rover.setX(rover.getXIndex() - 1),
+                    Direction.SOUTH, rover -> rover.setY(rover.getYIndex() - 1));
 
     private int x;
     private int y;
@@ -18,17 +25,22 @@ public class Rover {
 
     public void execute(char instruct) {
         if (instruct == 'r') {
-            modifyDirection(index -> index + 1);
+            turnRight();
         }
         if (instruct == 'l') {
-            modifyDirection(index -> index - 1);
+            turnLeft();
         }
         if (instruct == 'f') {
-            if (this.direction == Direction.EAST) {
-                this.x = this.x + 1;
-            }
-            // Rover执行指令, 指令被解析from,
+            FORWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
         }
+    }
+
+    private void turnLeft() {
+        modifyDirection(index -> index - 1);
+    }
+
+    private void turnRight() {
+        modifyDirection(index -> index + 1);
     }
 
     private void modifyDirection(Function<Integer, Integer> newDirectionIndexGetter) {
@@ -42,6 +54,18 @@ public class Rover {
 
     public int getYIndex() {
         return this.y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public Direction getDirection() {
