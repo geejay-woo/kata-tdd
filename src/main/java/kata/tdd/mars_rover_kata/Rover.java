@@ -1,6 +1,10 @@
 package kata.tdd.mars_rover_kata;
 
+import java.util.List;
+
 public class Rover {
+    private static final List<Character> DIRECTION_LIST = List.of('W', 'N', 'E', 'S');
+
     private int x;
     private int y;
     private char direction;
@@ -13,7 +17,8 @@ public class Rover {
 
     public void execute(char instruct) {
         if (instruct == 'r') {
-            direction = 'E';
+            Integer newDirectionIndex = (DIRECTION_LIST.indexOf(direction) + 1) % 4;
+            this.direction = DIRECTION_LIST.get(newDirectionIndex);
         }
     }
 
