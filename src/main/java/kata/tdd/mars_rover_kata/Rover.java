@@ -20,6 +20,10 @@ public class Rover {
             Integer newDirectionIndex = (DIRECTION_LIST.indexOf(direction) + 1) % 4;
             this.direction = DIRECTION_LIST.get(newDirectionIndex);
         }
+        if(instruct == 'l') {
+            Integer newDirectionIndex = (DIRECTION_LIST.indexOf(direction) + -1) % 4;
+            this.direction = DIRECTION_LIST.get(newDirectionIndex);
+        }
     }
 
     public int getXIndex() {

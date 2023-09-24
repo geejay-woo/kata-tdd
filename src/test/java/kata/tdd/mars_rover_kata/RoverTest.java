@@ -40,4 +40,18 @@ public class RoverTest {
         assertThat(rover.getDirection()).isEqualTo('N');
     }
 
+    @Test
+    public void should_get_west_direction_when_face_north_given_l_command() {
+        // given
+
+        // when
+        Rover rover = new Rover(0, 0, 'N');
+        rover.execute('l');
+
+        // then
+        assertThat(rover.getXIndex()).isEqualTo(0);
+        assertThat(rover.getYIndex()).isEqualTo(0);
+        assertThat(rover.getDirection()).isEqualTo('W');
+    }
+
 }
