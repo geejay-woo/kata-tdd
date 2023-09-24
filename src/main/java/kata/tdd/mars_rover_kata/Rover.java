@@ -23,6 +23,12 @@ public class Rover {
         if (instruct == 'l') {
             modifyDirection(index -> index - 1);
         }
+        if (instruct == 'f') {
+            if (this.direction == Direction.EAST) {
+                this.x = this.x + 1;
+            }
+            // Rover执行指令, 指令被解析from,
+        }
     }
 
     private void modifyDirection(Function<Integer, Integer> newDirectionIndexGetter) {
