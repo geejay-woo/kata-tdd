@@ -1,8 +1,10 @@
 package kata.tdd.mars_rover_kata;
 
+import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 
 /**
@@ -94,6 +96,18 @@ public class RoverTest {
         assertThat(rover.getXIndex()).isEqualTo(1);
         assertThat(rover.getYIndex()).isEqualTo(2);
         assertThat(rover.getDirection()).isEqualTo(Direction.SOUTH);
+    }
+
+    @Test
+    public void should_get_instruct_code_error_exception_when_execute_a_given_error_code() {
+        // given
+
+        // when
+        Rover rover = new Rover(0, 0, Direction.NORTH);
+        Throwable throwable = catchThrowable(() -> rover.execute('g'));
+
+        // then
+        assertThat(throwable).isInstanceOf(InstructCodeErrorException.class);
     }
 
 }

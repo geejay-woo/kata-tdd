@@ -1,5 +1,7 @@
 package kata.tdd.mars_rover_kata;
 
+import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class Rover {
     public void execute(char instruct) {
         Optional.ofNullable(Instruction.getByCode(instruct))
                 .map(Optional::of)
-                .orElseThrow(RuntimeException::new)
+                .orElseThrow(InstructCodeErrorException::new)
                 .ifPresent(ins -> ins.getAction().accept(this));
     }
 
