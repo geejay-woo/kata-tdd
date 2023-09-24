@@ -17,13 +17,13 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, 'N');
+        Rover rover = new Rover(0, 0, Direction.NORTH);
         rover.execute('r');
 
         // then
         assertThat(rover.getXIndex()).isEqualTo(0);
         assertThat(rover.getYIndex()).isEqualTo(0);
-        assertThat(rover.getDirection()).isEqualTo('E');
+        assertThat(rover.getDirection()).isEqualTo(Direction.EAST);
     }
 
     @Test
@@ -31,13 +31,13 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, 'W');
+        Rover rover = new Rover(0, 0, Direction.WEST);
         rover.execute('r');
 
         // then
         assertThat(rover.getXIndex()).isEqualTo(0);
         assertThat(rover.getYIndex()).isEqualTo(0);
-        assertThat(rover.getDirection()).isEqualTo('N');
+        assertThat(rover.getDirection()).isEqualTo(Direction.NORTH);
     }
 
     @Test
@@ -45,13 +45,13 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, 'N');
+        Rover rover = new Rover(0, 0, Direction.NORTH);
         rover.execute('l');
 
         // then
         assertThat(rover.getXIndex()).isEqualTo(0);
         assertThat(rover.getYIndex()).isEqualTo(0);
-        assertThat(rover.getDirection()).isEqualTo('W');
+        assertThat(rover.getDirection()).isEqualTo(Direction.WEST);
     }
 
 }

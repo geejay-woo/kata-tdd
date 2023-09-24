@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.function.Function;
 
 public class Rover {
-    private static final List<Character> DIRECTION_LIST = List.of('W', 'N', 'E', 'S');
+    private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
 
     private int x;
     private int y;
-    private char direction;
+    private Direction direction;
 
-    public Rover(int x, int y, char direction) {
+    public Rover(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -38,7 +38,7 @@ public class Rover {
         return this.y;
     }
 
-    public char getDirection() {
+    public Direction getDirection() {
         return this.direction;
     }
 }
