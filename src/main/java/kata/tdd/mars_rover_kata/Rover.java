@@ -13,6 +13,12 @@ public class Rover {
                     Direction.WEST, rover -> rover.setX(rover.getXIndex() - 1),
                     Direction.SOUTH, rover -> rover.setY(rover.getYIndex() - 1));
 
+    private static final Map<Direction, Consumer<Rover>> BACKWARD_DIRECTION_MAP =
+            Map.of(Direction.EAST, rover -> rover.setX(rover.getXIndex() - 1),
+                    Direction.NORTH, rover -> rover.setY(rover.getYIndex() - 1),
+                    Direction.WEST, rover -> rover.setX(rover.getXIndex() + 1),
+                    Direction.SOUTH, rover -> rover.setY(rover.getYIndex() + 1));
+
     private int x;
     private int y;
     private Direction direction;
@@ -32,6 +38,9 @@ public class Rover {
         }
         if (instruct == 'f') {
             FORWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
+        }
+        if (instruct == 'b') {
+            BACKWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
         }
     }
 
