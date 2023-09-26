@@ -19,7 +19,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, Direction.NORTH);
+        Rover rover = new Rover(4, 0, 0, Direction.NORTH);
         rover.execute('r');
 
         // then
@@ -33,7 +33,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, Direction.WEST);
+        Rover rover = new Rover(4, 0, 0, Direction.WEST);
         rover.execute('r');
 
         // then
@@ -47,7 +47,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, Direction.NORTH);
+        Rover rover = new Rover(4, 0, 0, Direction.NORTH);
         rover.execute('l');
 
         // then
@@ -61,7 +61,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, Direction.EAST);
+        Rover rover = new Rover(4, 0, 0, Direction.EAST);
         rover.execute('f');
 
         // then
@@ -75,7 +75,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(1, 1, Direction.SOUTH);
+        Rover rover = new Rover(4, 1, 1, Direction.SOUTH);
         rover.execute('f');
 
         // then
@@ -89,7 +89,7 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(1, 1, Direction.SOUTH);
+        Rover rover = new Rover(4, 1, 1, Direction.SOUTH);
         rover.execute('b');
 
         // then
@@ -103,11 +103,25 @@ public class RoverTest {
         // given
 
         // when
-        Rover rover = new Rover(0, 0, Direction.NORTH);
+        Rover rover = new Rover(4, 0, 0, Direction.NORTH);
         Throwable throwable = catchThrowable(() -> rover.execute('g'));
 
         // then
         assertThat(throwable).isInstanceOf(InstructCodeErrorException.class);
+    }
+
+    @Test
+    public void should_get_0_4_when_go_forward_given_at_4_4_position_and_face_east() {
+        // given
+
+        // when
+        Rover rover = new Rover(5,4, 4, Direction.EAST);
+        rover.execute('f');
+
+        // then
+        assertThat(rover.getXIndex()).isEqualTo(0);
+        assertThat(rover.getYIndex()).isEqualTo(4);
+        assertThat(rover.getDirection()).isEqualTo(Direction.EAST);
     }
 
 }

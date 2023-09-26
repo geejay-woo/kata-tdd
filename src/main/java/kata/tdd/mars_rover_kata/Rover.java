@@ -12,22 +12,30 @@ public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
 
     private static final Map<Direction, Consumer<Rover>> FORWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX(rover.getXIndex() + 1),
-                    Direction.NORTH, rover -> rover.setY(rover.getYIndex() + 1),
-                    Direction.WEST, rover -> rover.setX(rover.getXIndex() - 1),
-                    Direction.SOUTH, rover -> rover.setY(rover.getYIndex() - 1));
+            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + 1) % rover.getPerimeter()),
+                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> rover.setX((rover.getXIndex() - 1) % rover.getPerimeter()),
+                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() - 1) % rover.getPerimeter()));
 
     private static final Map<Direction, Consumer<Rover>> BACKWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX(rover.getXIndex() - 1),
-                    Direction.NORTH, rover -> rover.setY(rover.getYIndex() - 1),
-                    Direction.WEST, rover -> rover.setX(rover.getXIndex() + 1),
-                    Direction.SOUTH, rover -> rover.setY(rover.getYIndex() + 1));
+            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() - 1) % rover.getPerimeter()),
+                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() - 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + 1) % rover.getPerimeter()),
+                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + 1) % rover.getPerimeter()));
 
+    private int perimeter;
     private int x;
     private int y;
     private Direction direction;
 
-    public Rover(int x, int y, Direction direction) {
+    /**
+     * @param perimeter: 周长, 月球是个球体，走完周长则返回原点
+     * @param x:         所在x轴坐标点
+     * @param y:         所在y轴坐标点
+     * @param direction: rover面向方向
+     */
+    public Rover(int perimeter, int x, int y, Direction direction) {
+        this.perimeter = perimeter;
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -83,5 +91,9 @@ public class Rover {
 
     public Direction getDirection() {
         return this.direction;
+    }
+
+    public int getPerimeter() {
+        return perimeter;
     }
 }
