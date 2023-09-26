@@ -48,15 +48,16 @@ public class Rover {
     }
 
     public void goBackward() {
-        Coordinate nextPosition = BACKWARD_DIRECTION_MAP.get(this.getDirection()).apply(this);
-        if (hasBarrierAtTarget(nextPosition)) {
-            throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, nextPosition.getX(), nextPosition.getY()));
-        }
-        moveTo(nextPosition);
+        go(direction-> BACKWARD_DIRECTION_MAP.get(direction).apply(this));
+
     }
 
     public void goForward() {
-        Coordinate nextPosition = FORWARD_DIRECTION_MAP.get(this.getDirection()).apply(this);
+        go(direction-> FORWARD_DIRECTION_MAP.get(direction).apply(this));
+    }
+
+    private void go(Function<Direction, Coordinate> coordinateGetter) {
+        Coordinate nextPosition = coordinateGetter.apply(this.getDirection());
         if (hasBarrierAtTarget(nextPosition)) {
             throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, nextPosition.getX(), nextPosition.getY()));
         }
