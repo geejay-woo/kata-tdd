@@ -124,4 +124,18 @@ public class RoverTest {
         assertThat(rover.getDirection()).isEqualTo(Direction.EAST);
     }
 
+    @Test
+    public void should_get_4_4_when_go_forward_given_at_0_4_position_and_face_west() {
+        // given
+
+        // when
+        Rover rover = new Rover(5,0, 4, Direction.WEST);
+        rover.execute('f');
+
+        // then
+        assertThat(rover.getXIndex()).isEqualTo(4);
+        assertThat(rover.getYIndex()).isEqualTo(4);
+        assertThat(rover.getDirection()).isEqualTo(Direction.WEST);
+    }
+
 }

@@ -12,16 +12,16 @@ public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
 
     private static final Map<Direction, Consumer<Rover>> FORWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + 1) % rover.getPerimeter()),
-                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + 1) % rover.getPerimeter()),
-                    Direction.WEST, rover -> rover.setX((rover.getXIndex() - 1) % rover.getPerimeter()),
-                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() - 1) % rover.getPerimeter()));
+            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
+                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
+                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()));
 
     private static final Map<Direction, Consumer<Rover>> BACKWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() - 1) % rover.getPerimeter()),
-                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() - 1) % rover.getPerimeter()),
-                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + 1) % rover.getPerimeter()),
-                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + 1) % rover.getPerimeter()));
+            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
+                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
+                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()));
 
     private int perimeter;
     private int x;
