@@ -154,4 +154,20 @@ public class RoverTest {
 
     }
 
+    @Test
+    public void should_be_before_barrier_position_and_throw_exception_when_execute_instructs_given_one_instruct_has_barrier() {
+        // given
+
+        // when
+        Rover rover = new Rover(5, 0, 0, Direction.NORTH);
+        rover.setBarrierByPosition(2, 1);
+        Throwable throwable = catchThrowable(() -> rover.executeMany("rflfrfflffrbbb"));
+
+        // then
+        assertThat(throwable).isInstanceOf(BarrierBlockException.class);
+        assertThat(throwable).hasMessage("blocked at (1,1), barrier position: (2,1)");
+        assertThat(rover.getYIndex()).isEqualTo(1);
+        assertThat(rover.getXIndex()).isEqualTo(1);
+    }
+
 }

@@ -5,6 +5,7 @@ import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
@@ -40,6 +41,14 @@ public class Rover {
         this.direction = direction;
     }
 
+
+    public void executeMany(String instructs) {
+        char[] chars = instructs.toCharArray();
+        IntStream.range(0, chars.length)
+                .mapToObj(index -> chars[index])
+                .forEach(this::execute);
+    }
+
     public void execute(char instruct) {
         Optional.ofNullable(Instruction.getByCode(instruct))
                 .map(Optional::of)
@@ -48,7 +57,7 @@ public class Rover {
     }
 
     public void goBackward() {
-        go(direction-> BACKWARD_DIRECTION_MAP.get(direction).apply(this));
+        go(direction -> BACKWARD_DIRECTION_MAP.get(direction).apply(this));
 
     }
 
@@ -118,4 +127,5 @@ public class Rover {
     public boolean hasBarrierAtTarget(Coordinate position) {
         return barrierList.contains(position);
     }
+
 }
