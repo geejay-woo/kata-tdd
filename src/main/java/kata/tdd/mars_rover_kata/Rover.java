@@ -3,31 +3,29 @@ package kata.tdd.mars_rover_kata;
 import kata.tdd.mars_rover_kata.error.BarrierBlockException;
 import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.*;
 import java.util.function.Function;
 
 public class Rover {
     private static final List<Direction> DIRECTION_LIST = List.of(Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH);
 
-    private static final Map<Direction, Consumer<Rover>> FORWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
-                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
-                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
-                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()));
+    private static final Map<Direction, Function<Rover, Coordinate>> FORWARD_DIRECTION_MAP =
+            Map.of(Direction.EAST, rover -> new Coordinate((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter(), rover.getYIndex()),
+                    Direction.NORTH, rover -> new Coordinate(rover.getXIndex(), (rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> new Coordinate((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter(), rover.getYIndex()),
+                    Direction.SOUTH, rover -> new Coordinate(rover.getXIndex(), (rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()));
 
-    private static final Map<Direction, Consumer<Rover>> BACKWARD_DIRECTION_MAP =
-            Map.of(Direction.EAST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
-                    Direction.NORTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
-                    Direction.WEST, rover -> rover.setX((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()),
-                    Direction.SOUTH, rover -> rover.setY((rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()));
+    private static final Map<Direction, Function<Rover, Coordinate>> BACKWARD_DIRECTION_MAP =
+            Map.of(Direction.EAST, rover -> new Coordinate((rover.getXIndex() + rover.getPerimeter() - 1) % rover.getPerimeter(), rover.getYIndex()),
+                    Direction.NORTH, rover -> new Coordinate(rover.getXIndex(), (rover.getYIndex() + rover.getPerimeter() - 1) % rover.getPerimeter()),
+                    Direction.WEST, rover -> new Coordinate((rover.getXIndex() + rover.getPerimeter() + 1) % rover.getPerimeter(), rover.getYIndex()),
+                    Direction.SOUTH, rover -> new Coordinate(rover.getXIndex(), (rover.getYIndex() + rover.getPerimeter() + 1) % rover.getPerimeter()));
 
     private int perimeter;
     private int x;
     private int y;
     private Direction direction;
+    private Set<Coordinate> barrierList = new HashSet<>();
 
     /**
      * @param perimeter: 周长, 月球是个球体，走完周长则返回原点
@@ -46,25 +44,30 @@ public class Rover {
         Optional.ofNullable(Instruction.getByCode(instruct))
                 .map(Optional::of)
                 .orElseThrow(InstructCodeErrorException::new)
-                .ifPresent(ins -> {
-                    if (hasBarrierAt(1, 0)) {
-                        throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, 1, 0));
-                    }
-                    ins.getAction().accept(this);
-                });
-    }
-
-    private boolean hasBarrierAt(int x, int y) {
-        return true;
+                .ifPresent(ins -> ins.getAction().accept(this));
     }
 
     public void goBackward() {
-        BACKWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
+        Coordinate nextPosition = BACKWARD_DIRECTION_MAP.get(this.getDirection()).apply(this);
+        if (hasBarrierAtTarget(nextPosition)) {
+            throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, nextPosition.getX(), nextPosition.getY()));
+        }
+        moveTo(nextPosition);
     }
 
     public void goForward() {
-        FORWARD_DIRECTION_MAP.get(this.getDirection()).accept(this);
+        Coordinate nextPosition = FORWARD_DIRECTION_MAP.get(this.getDirection()).apply(this);
+        if (hasBarrierAtTarget(nextPosition)) {
+            throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, nextPosition.getX(), nextPosition.getY()));
+        }
+        moveTo(nextPosition);
     }
+
+    private void moveTo(Coordinate position) {
+        this.x = position.getX();
+        this.y = position.getY();
+    }
+
 
     public void turnLeft() {
         modifyDirection(index -> index - 1);
@@ -105,5 +108,13 @@ public class Rover {
 
     public int getPerimeter() {
         return perimeter;
+    }
+
+    public void setBarrierByPosition(int x, int y) {
+        this.barrierList.add(new Coordinate(x, y));
+    }
+
+    public boolean hasBarrierAtTarget(Coordinate position) {
+        return barrierList.contains(position);
     }
 }

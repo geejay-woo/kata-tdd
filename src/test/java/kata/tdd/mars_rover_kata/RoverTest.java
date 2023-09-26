@@ -145,6 +145,7 @@ public class RoverTest {
 
         // when
         Rover rover = new Rover(5, 0, 0, Direction.EAST);
+        rover.setBarrierByPosition(1, 0);
         Throwable throwable = catchThrowable(() -> rover.execute('f'));
 
         // then
