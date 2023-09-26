@@ -1,5 +1,6 @@
 package kata.tdd.mars_rover_kata;
 
+import kata.tdd.mars_rover_kata.error.BarrierBlockException;
 import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
 import org.junit.Test;
 
@@ -136,6 +137,20 @@ public class RoverTest {
         assertThat(rover.getXIndex()).isEqualTo(4);
         assertThat(rover.getYIndex()).isEqualTo(4);
         assertThat(rover.getDirection()).isEqualTo(Direction.WEST);
+    }
+
+    @Test
+    public void should_get_exception_report_1_0_has_barrier_when_go_forward_given_at_0_0_face_east() {
+        // given
+
+        // when
+        Rover rover = new Rover(5, 0, 0, Direction.EAST);
+        Throwable throwable = catchThrowable(() -> rover.execute('f'));
+
+        // then
+        assertThat(throwable).isInstanceOf(BarrierBlockException.class);
+        assertThat(throwable).hasMessage("blocked at (0,0), barrier position: (1,0)");
+
     }
 
 }

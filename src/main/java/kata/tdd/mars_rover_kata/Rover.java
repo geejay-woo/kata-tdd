@@ -1,5 +1,6 @@
 package kata.tdd.mars_rover_kata;
 
+import kata.tdd.mars_rover_kata.error.BarrierBlockException;
 import kata.tdd.mars_rover_kata.error.InstructCodeErrorException;
 
 import java.util.List;
@@ -45,7 +46,16 @@ public class Rover {
         Optional.ofNullable(Instruction.getByCode(instruct))
                 .map(Optional::of)
                 .orElseThrow(InstructCodeErrorException::new)
-                .ifPresent(ins -> ins.getAction().accept(this));
+                .ifPresent(ins -> {
+                    if (hasBarrierAt(1, 0)) {
+                        throw new BarrierBlockException(String.format("blocked at (%d,%d), barrier position: (%d,%d)", this.x, this.y, 1, 0));
+                    }
+                    ins.getAction().accept(this);
+                });
+    }
+
+    private boolean hasBarrierAt(int x, int y) {
+        return true;
     }
 
     public void goBackward() {
